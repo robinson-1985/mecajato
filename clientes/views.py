@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Cliente, Carro
 import re
 
 def clientes(request):
     if request.method == 'GET':
-        return render(request, 'clientes.html')
+        clientes_list = Cliente.objects.all()
+        return render(request, 'clientes.html', {'clientes_list': clientes_list})
     elif request.method == 'POST':
         nome = request.POST.get('nome')
         sobrenome = request.POST.get('sobrenome')
@@ -40,3 +41,7 @@ def clientes(request):
             car.save()
 
         return HttpResponse('teste')
+
+
+def att_cliente(request):
+    return JsonResponse({'teste': 1})
