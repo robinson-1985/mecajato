@@ -40,6 +40,21 @@ function dados_cliente(){
         return result.json()
     }).then(function(data){
         
-        console.log('teste')
+        document.getElementById('form-att-cliente').style.display = 'block'
+
+        id = document.getElementById('id')
+        id.value = data['cliente_id']
+
+        nome = document.getElementById('nome')
+        nome.value = data['cliente']['nome']
+
+        sobrenome = document.getElementById('sobrenome')
+        sobrenome.value = data['cliente']['sobrenome']
+
+        cpf = document.getElementById('cpf')
+        cpf.value = data['cliente']['cpf']
+
+        email = document.getElementById('email')
+        email.value = data['cliente']['email']
     })
 }
