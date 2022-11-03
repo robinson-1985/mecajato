@@ -15,7 +15,8 @@ function exibir_form(tipo) {
     if(tipo == "1"){
         att_cliente.style.display = "none"
         add_cliente.style.display = "block"
-    } else if(tipo == "2"){
+
+    }else if(tipo == "2"){
         add_cliente.style.display = "none"
         att_cliente.style.display = "block"
     }
@@ -38,6 +39,7 @@ function dados_cliente(){
 
     }).then(function(result){
         return result.json()
+
     }).then(function(data){
         
         document.getElementById('form-att-cliente').style.display = 'block'
@@ -56,5 +58,29 @@ function dados_cliente(){
 
         email = document.getElementById('email')
         email.value = data['cliente']['email']
+
+        div_carros = document.getElementById('carros')
+
+        for(i=0; i<data['carros'].length; i++){
+            div_carros.innerHTML += "\<form action='/clientes/update_carro/" + data['carros'][i]['id'] +"' method='POST'>\
+                <div class='row'>\
+                        <div class='col-md'>\
+                            <input class='form-control' name='carro' type='text' value='" + data['carros'][i]['fields']['carro'] + "'>\
+                        </div>\
+                        <div class='col-md'>\
+                            <input class='form-control' name='placa' type='text' value='" + data['carros'][i]['fields']['placa'] + "'>\
+                        </div>\
+                        <div class='col-md'>\
+                            <input class='form-control' type='text' name='ano' value='" + data['carros'][i]['fields']['ano'] + "' >\
+                        </div>\
+                        <div class='col-md'>\
+                            <input class='btn btn-lg btn-success' type='submit'>\
+                        </div>\
+                    </form>\
+                    <div class='col-md'>\
+                        <a href='/clientes/excluir_carro/"+ data['carros'][i]['id'] +"' class='btn btn-lg btn-danger'>EXCLUIR</a>\
+                    </div>\
+                </div><br>"
+        }
     })
 }
