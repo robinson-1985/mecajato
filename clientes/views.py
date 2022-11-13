@@ -54,6 +54,7 @@ def att_cliente(request):
     carros = Carro.objects.filter(cliente=cliente[0])
     cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
     cliente_id = json.loads(serializers.serialize('json', cliente))[0]['pk']
+
     carros_json = json.loads(serializers.serialize('json', carros))
     carros_json = [{'fields': i['fields'], 'id': i['pk']} for i in carros_json]
     data = {'cliente': cliente_json, 'carros': carros_json, 'cliente_id': cliente_id}
@@ -86,3 +87,9 @@ def excluir_carro(request, id):
     except:
         return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}')
 
+
+def update_cliente(request, id):
+    body = json.loads(request.body)
+    
+
+    return JsonResponse({'teste': 'teste'})
