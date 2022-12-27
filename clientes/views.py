@@ -4,9 +4,9 @@ from .models import Cliente, Carro
 import re
 from django.core import serializers
 import json
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 
 def clientes(request):
     if request.method == 'GET':
@@ -90,6 +90,21 @@ def excluir_carro(request, id):
 
 def update_cliente(request, id):
     body = json.loads(request.body)
+    nome = body['nome']
+    sobrenome = body['sobrenome']
+    email = body['email']
+    cpf = body['cpf']
+    
+    cliente = get_object_or_404(Cliente, id=id)
+    try:
+        cliente.nome = nome
+        cliente.sobrenome = sobrenome
+        cliente.email = email
+        cliente.cpf = cpf
+        cliente.save()
+        return JsonResponse({'status': '200', 'nome': nome, 'sobrenome': sobrenome, 'email': email, 'cpf': cpf})
+    except:
+        return JsonResponse({'status': '500'})
     
 
     return JsonResponse({'teste': 'teste'})
